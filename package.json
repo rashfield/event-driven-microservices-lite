@@ -1,0 +1,28 @@
+{
+  "name": "event-driven-microservices-lite",
+  "version": "1.0.0",
+  "description": "A small system of independent services communicating via events to simulate a real production-style architecture.",
+  "workspaces": [
+    "order-service",
+    "payment-service",
+    "notification-service"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rashfield/event-driven-microservices-lite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rashfield/event-driven-microservices-lite/issues"
+  },
+  "homepage": "https://github.com/rashfield/event-driven-microservices-lite#readme",
+  "dependencies": {
+    "redis": "^5.12.1"
+  }
+}
