@@ -21,6 +21,8 @@ const {
   buildEvent,
 } = require("./shared/eventBus");
 const crypto = require("crypto");
+const { time } = require("console");
+
 const publisher = createPublisher();
 
 (async () => {
@@ -31,6 +33,7 @@ app.post("/orders", async (req, res) => {
   const order = {
     id: crypto.randomUUID(),
     amount: req.body.amount || 100,
+    timestamp: new Date().toISOString(),
   };
 
   const event = buildEvent("order.created", order);
