@@ -2,11 +2,12 @@ const { createClient } = require("redis");
 const crypto = require("crypto");
 
 const CHANNEL = "events";
+const REDIS_URL = "redis://redis:6379";
 
 // Create separate clients for pub/sub (important)
 function createPublisher() {
   const client = createClient({
-    url: "redis://localhost:6379",
+    url: REDIS_URL,
   });
 
   client.on("error", (err) => {
@@ -18,7 +19,7 @@ function createPublisher() {
 
 function createSubscriber() {
   const client = createClient({
-    url: "redis://localhost:6379",
+    url: REDIS_URL,
   });
 
   client.on("error", (err) => {

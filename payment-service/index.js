@@ -20,7 +20,7 @@ const {
   subscribe,
   publish,
   buildEvent,
-} = require("../shared/eventBus");
+} = require("./shared/eventBus");
 const crypto = require("crypto");
 
 const subscriber = createSubscriber();

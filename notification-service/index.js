@@ -17,7 +17,7 @@ app.listen(PORT, () => {
 const {
   createSubscriber,
   subscribe,
-} = require("../shared/eventBus");
+} = require("./shared/eventBus");
 
 const subscriber = createSubscriber();
 

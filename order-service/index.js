@@ -19,7 +19,7 @@ const {
   createPublisher,
   publish,
   buildEvent,
-} = require("../shared/eventBus");
+} = require("./shared/eventBus");
 const crypto = require("crypto");
 const publisher = createPublisher();
 
