@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json());
 
 const PORT = 3001;
+const orders = [];
 
 app.get("/health", (req, res) => {
   res.json({
@@ -34,7 +35,9 @@ app.post("/orders", async (req, res) => {
     id: crypto.randomUUID(),
     amount: req.body.amount || 100,
     timestamp: new Date().toISOString(),
+    status: "pending",
   };
+  orders.push(order);
 
   const event = buildEvent("order.created", order);
 
