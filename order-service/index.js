@@ -45,3 +45,13 @@ app.post("/orders", async (req, res) => {
 
   res.json({ order });
 });
+
+app.get("/orders/:id", (req, res) => {
+  const order = orders.find(o => o.id === req.params.id);
+
+  if (!order) {
+    return res.status(404).json({ error: "Not found" });
+  }
+
+  res.json(order);
+});
