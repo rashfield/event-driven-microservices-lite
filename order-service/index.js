@@ -1,4 +1,15 @@
 const express = require("express");
+const {
+  createPublisher,
+  publish,
+  createSubscriber,
+  subscribe,
+  buildEvent,
+} = require("./shared/eventBus");
+const crypto = require("crypto");
+const { time } = require("console");
+const { handleEvent } = require("./orderHandler");
+
 const app = express();
 app.use(express.json());
 
@@ -16,16 +27,6 @@ app.listen(PORT, () => {
   console.log(`Order service running on port ${PORT}`);
 });
 
-const {
-  createPublisher,
-  publish,
-  createSubscriber,
-  subscribe,
-  buildEvent,
-} = require("./shared/eventBus");
-const crypto = require("crypto");
-const { time } = require("console");
-
 const publisher = createPublisher();
 const subscriber = createSubscriber();
 (async () => {
@@ -33,21 +34,7 @@ const subscriber = createSubscriber();
   await subscriber.connect();
 
   await subscribe(subscriber, async (event) => {
-    if (event.type === "payment.completed") {
-      const order = orders.find(o => o.id === event.payload.orderId);
-      if (order) {
-        order.status = "paid";
-        console.log("[ORDER] Marked as PAID:", order.id);
-      }
-    }
-
-    if (event.type === "payment.failed") {
-      const order = orders.find(o => o.id === event.payload.orderId);
-      if (order) {
-        order.status = "failed";
-        console.log("[ORDER] Marked as FAILED:", order.id);
-      }
-    }
+    handleEvent(event, orders);
   });
 })();
 
