@@ -26,27 +26,31 @@ const crypto = require("crypto");
 const subscriber = createSubscriber();
 const publisher = createPublisher();
 
+const processPayment = async (event, attempt = 1) => {
+        console.log(`[PAYMENT] Attempt ${attempt} for order ${event.payload.id}`);
+
+        const success = Math.random() > 0.3;
+
+        if (!success && attempt < 2) {
+          console.log(`[PAYMENT] Retrying... for order ${event.payload.id}`);
+          return setTimeout(() => processPayment(event, attempt + 1), 1000);
+        }
+
+        const newEvent = buildEvent(
+          success ? "payment.completed" : "payment.failed",
+          { orderId: event.payload.id }
+        );
+
+        await publish(publisher, newEvent);
+};
+
 (async () => {
   await subscriber.connect();
   await publisher.connect();
 
   await subscribe(subscriber, async (event) => {
     if (event.type === "order.created") {
-      console.log("[PAYMENT] Processing order:", event.payload.id);
-
-      // simulate delay
-      setTimeout(async () => {
-        const success = Math.random() > 0.3;
-
-        const newEvent = buildEvent(
-          success ? "payment.completed" : "payment.failed",
-          {
-            orderId: event.payload.id,
-          }
-        );
-
-        await publish(publisher, newEvent);
-      }, 2000);
-    }
+      await processPayment(event);
+    };
   });
 })();
