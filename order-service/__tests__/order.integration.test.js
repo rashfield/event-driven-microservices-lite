@@ -1,7 +1,7 @@
 const { handleEvent } = require("../orderHandler");
 
 test("order lifecycle: pending → paid", () => {
-  const orders = [{ id: "1", status: "pending" }];
+  const orders = [{ orderId: "1", status: "pending" }];
 
   // simulate payment success event
   handleEvent({
@@ -13,7 +13,7 @@ test("order lifecycle: pending → paid", () => {
 });
 
 test("order lifecycle: pending → failed", () => {
-  const orders = [{ id: "1", status: "pending" }];
+  const orders = [{ orderId: "1", status: "pending" }];
 
   handleEvent({
     type: "payment.failed",

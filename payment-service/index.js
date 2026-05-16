@@ -22,8 +22,6 @@ app.listen(PORT, () => {
   console.log(`Payment service running on port ${PORT}`);
 });
 
-
-
 const subscriber = createSubscriber();
 const publisher = createPublisher();
 const publishFn = (event) => publish(publisher, event);
@@ -34,7 +32,7 @@ const publishFn = (event) => publish(publisher, event);
 
   await subscribe(subscriber, async (event) => {
     if (event.type === "order.created") {
-      await processPayment(event, publishFn, buildEvent);
+      await processPayment(event.payload.orderId, publishFn, buildEvent);
     };
   });
 })();

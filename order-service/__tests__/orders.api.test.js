@@ -25,8 +25,8 @@ describe("Orders API", () => {
     expect(publishFn).toHaveBeenCalled();
   });
 
-  test("GET /orders/:id returns order", async () => {
-    const orders = [{ id: "1", amount: 50, status: "pending" }];
+  test("GET /orders/:orderId returns order", async () => {
+    const orders = [{ orderId: "1", amount: 50, status: "pending" }];
 
     const app = createApp({
       orders,
@@ -37,7 +37,7 @@ describe("Orders API", () => {
     const res = await request(app).get("/orders/1");
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.id).toBe("1");
+    expect(res.body.orderId).toBe("1");
   });
 
   test("POST then GET flow", async () => {
@@ -53,9 +53,9 @@ describe("Orders API", () => {
       .post("/orders")
       .send({ amount: 75 });
 
-    const id = createRes.body.order.id;
+    const orderId = createRes.body.order.orderId;
 
-    const getRes = await request(app).get(`/orders/${id}`);
+    const getRes = await request(app).get(`/orders/${orderId}`);
 
     expect(getRes.body.status).toBe("pending");
   });

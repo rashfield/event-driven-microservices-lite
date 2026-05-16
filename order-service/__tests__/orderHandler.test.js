@@ -1,7 +1,7 @@
 const { handleEvent } = require("../orderHandler");
 
 test("marks order as paid", () => {
-  const orders = [{ id: "1", status: "pending" }];
+  const orders = [{ orderId: "1", status: "pending" }];
 
   handleEvent({
     type: "payment.completed",
@@ -12,7 +12,7 @@ test("marks order as paid", () => {
 });
 
 test("marks order as failed", () => {
-  const orders = [{ id: "1", status: "pending" }];
+  const orders = [{ orderId: "1", status: "pending" }];
 
   handleEvent({
     type: "payment.failed",

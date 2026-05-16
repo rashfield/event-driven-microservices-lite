@@ -14,7 +14,7 @@ function createApp({ orders, publishFn, buildEvent }) {
 
   app.post("/orders", async (req, res) => {
     const order = {
-      id: crypto.randomUUID(),
+      orderId: crypto.randomUUID(),
       amount: req.body.amount || 100,
       timestamp: new Date().toISOString(),
       status: "pending",
@@ -31,8 +31,8 @@ function createApp({ orders, publishFn, buildEvent }) {
     res.json({ order });
   });
 
-  app.get("/orders/:id", (req, res) => {
-    const order = orders.find(o => o.id === req.params.id);
+  app.get("/orders/:orderId", (req, res) => {
+    const order = orders.find(o => o.orderId === req.params.orderId);
 
     if (!order) {
       return res.status(404).json({ error: "Not found" });
