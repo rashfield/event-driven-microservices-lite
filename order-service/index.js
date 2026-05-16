@@ -7,7 +7,6 @@ const {
   buildEvent,
 } = require("./shared/eventBus");
 const crypto = require("crypto");
-const { time } = require("console");
 const { handleEvent } = require("./orderHandler");
 
 const app = express();
