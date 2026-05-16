@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "workspaces": [
+    "order-service",
+    "payment-service",
+    "notification-service"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces"
+  }
+}
