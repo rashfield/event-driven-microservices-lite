@@ -27,7 +27,7 @@ const subscriber = createSubscriber();
   await subscribe(subscriber, async (event) => {
     switch (event.type) {
       case "order.created":
-        console.log("[NOTIFY] Order received:", event.payload.id);
+        console.log("[NOTIFY] Order received:", event.payload.orderId);
         break;
 
       case "payment.completed":

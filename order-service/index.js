@@ -1,44 +1,33 @@
-const express = require("express");
-const app = express();
-app.use(express.json());
+const {
+  createPublisher,
+  publish,
+  createSubscriber,
+  subscribe,
+  buildEvent,
+} = require("./shared/eventBus");
+
+const { createApp } = require("./app");
+const { handleEvent } = require("./orderHandler");
+
+const publisher = createPublisher();
+const subscriber = createSubscriber();
+const publishFn = (event) => publish(publisher, event);
 
 const PORT = 3001;
+const orders = [];
 
-app.get("/health", (req, res) => {
-  res.json({
-    service: "order-service",
-    status: "ok"
-  });
-});
+const app = createApp({ orders, publishFn, buildEvent });
 
 app.listen(PORT, () => {
   console.log(`Order service running on port ${PORT}`);
 });
 
-const {
-  createPublisher,
-  publish,
-  buildEvent,
-} = require("./shared/eventBus");
-const crypto = require("crypto");
-const { time } = require("console");
-
-const publisher = createPublisher();
 
 (async () => {
   await publisher.connect();
+  await subscriber.connect();
+
+  await subscribe(subscriber, async (event) => {
+    handleEvent(event, orders);
+  });
 })();
-
-app.post("/orders", async (req, res) => {
-  const order = {
-    id: crypto.randomUUID(),
-    amount: req.body.amount || 100,
-    timestamp: new Date().toISOString(),
-  };
-
-  const event = buildEvent("order.created", order);
-
-  await publish(publisher, event);
-
-  res.json({ order });
-});
