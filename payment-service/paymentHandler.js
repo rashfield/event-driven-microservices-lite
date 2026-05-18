@@ -9,7 +9,7 @@ async function processPayment(orderId, publish, buildEvent, attempt = 1) {
         console.log(`[PAYMENT] Retrying... for order ${orderId}`);
         // wait for 1 second before retrying
         await setTimeout(1000);
-        await processPayment(orderId, publish, buildEvent, attempt + 1);
+        return processPayment(orderId, publish, buildEvent, attempt + 1);
     }
 
     const newEvent = buildEvent(
