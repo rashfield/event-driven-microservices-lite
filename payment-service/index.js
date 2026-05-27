@@ -8,6 +8,8 @@ const {
 } = require("./shared/eventBus");
 const { processPayment } = require("./paymentHandler");
 
+const { log } = require("./shared/logger");
+
 const app = express();
 const PORT = 3002;
 
@@ -19,7 +21,7 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Payment service running on port ${PORT}`);
+  log("payment-service", "info", `Payment service running on port ${PORT}`);
 });
 
 const subscriber = createSubscriber();

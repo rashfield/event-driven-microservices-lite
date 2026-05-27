@@ -9,6 +9,8 @@ const {
 const { createApp } = require("./app");
 const { handleEvent } = require("./orderHandler");
 
+const { log } = require("./shared/logger");
+
 const publisher = createPublisher();
 const subscriber = createSubscriber();
 const publishFn = (event) => publish(publisher, event);
@@ -19,7 +21,7 @@ const orders = [];
 const app = createApp({ orders, publishFn, buildEvent });
 
 app.listen(PORT, () => {
-  console.log(`Order service running on port ${PORT}`);
+  log("order-service", "info", `Order service running on port ${PORT}`);
 });
 
 

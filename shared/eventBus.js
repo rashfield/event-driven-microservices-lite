@@ -1,5 +1,6 @@
 const { createClient } = require("redis");
 const crypto = require("crypto");
+const { log } = require("./logger");
 
 const CHANNEL = "events";
 const REDIS_URL = "redis://redis:6379";
@@ -11,7 +12,7 @@ function createPublisher() {
   });
 
   client.on("error", (err) => {
-    console.error("Redis Publisher Error:", err);
+    log("event-bus", "error", "Redis Publisher Error:", { error: err });
   });
 
   return client;
@@ -23,7 +24,7 @@ function createSubscriber() {
   });
 
   client.on("error", (err) => {
-    console.error("Redis Subscriber Error:", err);
+    log("event-bus", "error", "Redis Subscriber Error:", { error: err });
   });
 
   return client;
@@ -42,7 +43,7 @@ function buildEvent(type, payload) {
 // Publish event
 async function publish(client, event) {
   await client.publish(CHANNEL, JSON.stringify(event));
-  console.log(`[EVENT PUBLISHED] ${event.type}`);
+  log("event-bus", "info", `Event published: ${event.type}`, { eventId: event.id });
 }
 
 // Subscribe to events
@@ -52,11 +53,11 @@ async function subscribe(client, handler) {
       const event = JSON.parse(message);
       handler(event);
     } catch (err) {
-      console.error("Failed to parse event:", err);
+      log("event-bus", "error", "Failed to parse event:", { error: err });
     }
   });
 
-  console.log("[SUBSCRIBED] Listening for events...");
+  log("event-bus", "info", "[SUBSCRIBED] Listening for events...");
 }
 
 module.exports = {
