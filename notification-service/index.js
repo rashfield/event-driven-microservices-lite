@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const { log } = require("./shared/logger");
 
 const PORT = 3003;
 
@@ -11,7 +12,7 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Notification service running on port ${PORT}`);
+  log("notification-service", "info", `Notification service running on port ${PORT}`);
 });
 
 const {
@@ -27,15 +28,15 @@ const subscriber = createSubscriber();
   await subscribe(subscriber, async (event) => {
     switch (event.type) {
       case "order.created":
-        console.log("[NOTIFY] Order received:", event.payload.orderId);
+        log("notification-service", "info", "Order received", { orderId: event.payload.orderId });
         break;
 
       case "payment.completed":
-        console.log("[NOTIFY] Payment successful:", event.payload.orderId);
+        log("notification-service", "info", "Payment successful", { orderId: event.payload.orderId });
         break;
 
       case "payment.failed":
-        console.log("[NOTIFY] Payment failed:", event.payload.orderId);
+        log("notification-service", "error", "Payment failed", { orderId: event.payload.orderId });
         break;
     }
   });
