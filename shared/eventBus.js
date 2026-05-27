@@ -1,6 +1,6 @@
 const { createClient } = require("redis");
 const crypto = require("crypto");
-const { log } = require("./shared/logger");
+const { log } = require("./logger");
 
 const CHANNEL = "events";
 const REDIS_URL = "redis://redis:6379";
