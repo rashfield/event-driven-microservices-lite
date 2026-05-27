@@ -42,7 +42,7 @@ function buildEvent(type, payload) {
 // Publish event
 async function publish(client, event) {
   await client.publish(CHANNEL, JSON.stringify(event));
-  console.log(`[EVENT PUBLISHED] ${event.type}`);
+  console.log(`[${event.timestamp}][EVENT PUBLISHED] ${event.type}`);
 }
 
 // Subscribe to events
