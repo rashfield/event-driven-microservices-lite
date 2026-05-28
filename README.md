@@ -11,6 +11,8 @@ A small system of independent services communicating via events to simulate a re
 In the root run the following: 
 ```
 docker compose build
+```
+```
 docker compose up
 ```
 
@@ -27,3 +29,6 @@ In the root run the following:
 ```
 docker compose down
 ```
+
+## Simplified System Design
+![Simplified design diagram showing the services and event bus](simplified-system-design.drawio.png)
