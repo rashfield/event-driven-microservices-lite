@@ -30,3 +30,11 @@ jobs:
         run: npm ci # Use 'npm ci' for faster, deterministic installs
       - name: Run tests
         run: npm test
+
+      # E2E tests 
+      - name: Build and start services
+        run: docker compose up -d --build
+      - name: Run E2E tests
+        run: npm run test:e2e
+      - name: Tear down services
+        run: docker compose down
